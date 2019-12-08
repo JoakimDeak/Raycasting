@@ -51,12 +51,29 @@ function checkInputs(){
     }
 }
 
+function render3d(){
+    ctx3d.clearRect(0, 0, canvas3d.width, canvas3d.height);
+    ctx3d.fillStyle = "#000";
+    ctx3d.fillRect(0, 0, canvas3d.width, canvas3d.height);
+
+    for(let i = 0; i < observer.rays.length; i++){
+        let ray = observer.rays[i];
+        let rdist = ray.length();
+        let wallHeight = canvas3d.height - rdist;
+        if(rdist > 2){ // rays that dont hit walls are just very short
+            let color = 255 - rdist;
+            ctx3d.fillStyle = 'rgb(' + color + ', ' + color + ', ' + color + ')';
+            ctx3d.fillRect(canvas3d.width / observer.rays.length * i, canvas3d.height / 2 - wallHeight / 2, canvas3d.width / observer.rays.length + 1, wallHeight);
+        }
+    }
+}
+
 // generates a given number of walls
 function generateWalls(numOfWalls){
-    walls.push(new Wall(0, canvas2d.height, canvas2d.width, canvas2d.height));// framing the canvas with border walls
+    /*walls.push(new Wall(0, canvas2d.height, canvas2d.width, canvas2d.height));// framing the canvas with border walls
     walls.push(new Wall(0, 0, canvas2d.width, 0));
     walls.push(new Wall(0, 0, 0, canvas2d.height));
-    walls.push(new Wall(canvas2d.width, 0, canvas2d.width, canvas2d.height));
+    walls.push(new Wall(canvas2d.width, 0, canvas2d.width, canvas2d.height));*/
     for(let i = 0; i < numOfWalls; i++){
         let nums = [];
         for(let j = 0; j < 4; j++){
@@ -74,7 +91,7 @@ function showWalls(){
 // initializing
 let walls = [];
 generateWalls(5);
-let observer = new Observer(300, 150, 20, 90);
+let observer = new Observer(300, 150, 10, 90);
 
 // game loop
 requestAnimationFrame(update);
@@ -86,8 +103,11 @@ function update(){
     checkInputs();
     observer.rayCollision(walls);
 
+    render3d();
+
     showWalls();
     observer.show();
+
 
     requestAnimationFrame(update);
 }

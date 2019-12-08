@@ -7,12 +7,16 @@ class Ray{
         this.y2 = y2;
     }
 
-    show(){ // draws a line bewteen the 2 points that define a line
+    show(){ // draws a line bewteen the 2 points that define a ray
         ctx2d.strokeStyle = "#fff";
         ctx2d.beginPath();
         ctx2d.moveTo(this.x1, this.y1);
         ctx2d.lineTo(this.x2, this.y2);
         ctx2d.stroke();
+    }
+
+    length(){
+        return Math.sqrt(Math.pow(this.x1 - this.x2, 2) + Math.pow(this.y1 - this.y2, 2));
     }
 
     cast(wall){

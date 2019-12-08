@@ -7,7 +7,7 @@ class Wall{
         this.y2 = y2;
     }
 
-    show(){ // draws a line bewteen the 2 points that define a line
+    show(){ // draws a line bewteen the 2 points that define a wall
         ctx2d.strokeStyle = "#fff";
         ctx2d.beginPath();
         ctx2d.moveTo(this.x1, this.y1);
